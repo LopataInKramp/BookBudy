@@ -1,41 +1,71 @@
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using BookBudy.Services;
+using BookBudy.Dots;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+// JWT settings (use secure storage in production)
+// NOTE: this default secret is only for local/dev. In production, set Jwt:Secret in user secrets or environment variables.
+var jwtSecret = builder.Configuration["Jwt:Secret"] ?? "b3f1c2d4e5f67890a1b2c3d4e5f67890b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e";
+var jwtIssuer = builder.Configuration["Jwt:Issuer"] ?? "bookbudy";
+var key = Encoding.UTF8.GetBytes(jwtSecret);
+
+builder.Services.AddSingleton<IUserService>(new InMemoryUserService(jwtSecret, jwtIssuer));
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidIssuer = jwtIssuer,
+        ValidateAudience = false,
+        ValidateLifetime = true,
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+        ValidateIssuerSigningKey = true
+    };
+});
+
+builder.Services.AddAuthorization();
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
 
 app.UseHttpsRedirection();
+app.UseAuthentication();
+app.UseAuthorization();
 
-var summaries = new[]
+app.MapPost("/signup", async (BookBudy.Dots.RegisterRequest req, IUserService userService) =>
 {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+    var result = await userService.RegisterAsync(req);
+    if (!result.Success) return Results.BadRequest(new { error = result.Error });
+    return Results.Created("/me", result.User);
+});
 
-app.MapGet("/weatherforecast", () =>
-    {
-        var forecast = Enumerable.Range(1, 5).Select(index =>
-                new WeatherForecast
-                (
-                    DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                    Random.Shared.Next(-20, 55),
-                    summaries[Random.Shared.Next(summaries.Length)]
-                ))
-            .ToArray();
-        return forecast;
-    })
-    .WithName("GetWeatherForecast");
+app.MapPost("/login", async (BookBudy.Dots.LoginRequest req, IUserService userService) =>
+{
+    var auth = await userService.AuthenticateAsync(req);
+    if (!auth.Success) return Results.Unauthorized();
+    return Results.Ok(new BookBudy.Dots.AuthResponse(auth.Token, auth.User));
+});
+
+app.MapGet("/me", (System.Security.Claims.ClaimsPrincipal user, IUserService userService) =>
+{
+    var id = user.FindFirst("id")?.Value;
+    if (string.IsNullOrEmpty(id)) return Results.Unauthorized();
+    var u = userService.GetById(id);
+    return u is null ? Results.NotFound() : Results.Ok(u);
+}).RequireAuthorization();
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
