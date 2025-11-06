@@ -38,7 +38,7 @@ builder.Services.AddOpenApi();
 
 // Add DbContext and PostgreSQL configuration
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") 
-                      ?? "Host=localhost;Database=bookbuddy;Username=postgres;Password=postgres";
+                      ?? "Host=localhost;Port=5432;Database=mydatabase;Username=admin;Password=admin123";
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(connectionString));
