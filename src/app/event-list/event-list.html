@@ -1,0 +1,52 @@
+<div class="d-flex app-shell">
+  <aside class="sidebar bg-white border-end">
+    <div class="brand p-3">EventBookPro</div>
+    <ul class="nav flex-column px-2">
+  <li class="nav-item"><a class="nav-link active" routerLink="/events"><i class="bi bi-calendar3 me-2"></i>Event List</a></li>
+      <li class="nav-item"><a class="nav-link" routerLink="/my-bookings">My Bookings</a></li>
+      <hr />
+      <li class="nav-item"><a class="nav-link" routerLink="/create">Create Event</a></li>
+      <li class="nav-item"><a class="nav-link" routerLink="/manage">Manage Events</a></li>
+      <hr />
+      <li class="nav-item"><a class="nav-link" routerLink="/categories">Category Management</a></li>
+    </ul>
+    <div class="p-3 mt-auto">
+      <button class="btn btn-danger w-100">Logout</button>
+    </div>
+  </aside>
+
+  <main class="flex-grow-1 p-4">
+    <h3 style="font-weight: bold;">Event List</h3>
+    <div class="d-flex justify-content-between align-items-center mb-3" style="margin-top: 20px;">
+      <div class="search w-50">
+        <input class="form-control" placeholder="Search events by keyword..." (input)="search = $any($event.target).value">
+      </div>
+      <div class="filters d-flex gap-2">
+        <select class="form-select">
+          <option>Category: All Categories</option>
+        </select>
+        <select class="form-select">
+          <option>Date Range</option>
+        </select>
+        <select class="form-select">
+          <option>Location: All Locations</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-12 col-md-6 col-lg-3" *ngFor="let ev of filteredEvents()">
+        <a [routerLink]="['/events', ev.id]" class="text-decoration-none text-reset">
+          <div class="card h-100 event-card" style="border-radius: 10px;">
+            <img [src]="ev.image" class="card-img-top" alt="{{ev.title}}">
+            <div class="card-body">
+              <h6 class="card-title">{{ev.title}}</h6>
+              <p class="small text-muted mb-2">{{ev.date}}<br>{{ev.location}}</p>
+              <span class="badge bg-light text-dark tag">{{ev.tag}}</span>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </main>
+</div>

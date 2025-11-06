@@ -1,0 +1,64 @@
+<div class="container-fluid event-detail p-4">
+  <div class="mb-3"><a class="text-decoration-none" (click)="back()">&larr; Back to Event List</a></div>
+
+  <div *ngIf="loading" class="text-center py-5">Loading...</div>
+  <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+
+  <div *ngIf="event">
+    <h2 class="mb-3">{{event.title}}</h2>
+    <div class="hero mb-4">
+      <img [src]="event.image" class="img-fluid rounded" alt="{{event.title}}">
+    </div>
+
+    <div class="row g-4">
+      <div class="col-lg-8">
+        <div class="card p-3 mb-3">
+          <h5>About This Event</h5>
+          <p class="text-muted">Join us for the premier event. This card contains a longer description of the event. Replace with real data from your API.</p>
+          <ul class="list-unstyled small text-muted">
+            <li><strong>Date:</strong> {{event.date}}</li>
+            <li><strong>Location:</strong> {{event.location}}</li>
+          </ul>
+        </div>
+
+        <div class="card p-3 mb-3">
+          <h5>Ticket Information</h5>
+          <table class="table table-striped mb-0">
+            <thead>
+              <tr><th>Type</th><th>Price</th><th>Availability</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>General Admission</td><td>$499</td><td>Available</td></tr>
+              <tr><td>VIP Pass</td><td>$999</td><td>Limited</td></tr>
+              <tr><td>Student Discount</td><td>$249</td><td>Available (ID required)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="card p-3 mb-3">
+          <div class="d-flex justify-content-between align-items-start">
+            <h5 class="mb-0">Event Agenda</h5>
+            <button class="btn btn-outline-primary btn-sm">Contact Organizer</button>
+          </div>
+          <hr>
+          <div class="agenda">
+            <div class="agenda-item d-flex">
+              <div class="time me-2 text-muted">09:00</div>
+              <div class="flex-grow-1">Opening Keynote: AI's Next Frontier</div>
+            </div>
+            <div class="agenda-item d-flex mt-2">
+              <div class="time me-2 text-muted">10:00</div>
+              <div class="flex-grow-1">Panel: Ethical AI & Society</div>
+            </div>
+            <div class="agenda-item d-flex mt-2">
+              <div class="time me-2 text-muted">12:00</div>
+              <div class="flex-grow-1">Lunch Break & Networking</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

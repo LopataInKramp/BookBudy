@@ -1,0 +1,7 @@
+.event-detail .hero img { height: 300px; object-fit: cover; width: 100%; }
+.event-detail .card { border-radius: 10px; }
+.event-detail .agenda .time { width: 58px; }
+
+@media (max-width: 768px) {
+  .event-detail .hero img { height: 180px; }
+}
