@@ -1,0 +1,44 @@
+/* Styles for register/login card to match mock */
+.register-card {
+  border-radius: 12px;
+  background: #ffffff;
+  border: 1px solid rgba(16, 24, 40, 0.04);
+  padding: 28px !important;
+}
+
+.register-card h2 {
+  font-weight: 700;
+  font-size: 1.4rem;
+}
+
+.register-card p {
+  margin-bottom: 1.25rem;
+  color: #6b7280; /* muted */
+}
+
+.register-card .form-control {
+  height: 44px;
+  border-radius: 8px;
+  box-shadow: none;
+}
+
+.btn-primary-custom {
+  background: linear-gradient(180deg, #6f4ef1 0%, #5b46c7 100%);
+  border: none;
+  color: white;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.btn-primary-custom[disabled] {
+  opacity: 0.6;
+}
+
+.text-danger.small {
+  margin-top: 6px;
+}
+
+@media (max-width: 420px) {
+  .register-card { padding: 20px !important; }
+}

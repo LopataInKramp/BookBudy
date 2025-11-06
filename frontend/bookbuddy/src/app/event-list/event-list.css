@@ -1,0 +1,22 @@
+:root{
+  --sidebar-width: 220px;
+  --card-radius: 10px;
+}
+
+.app-shell { min-height: 100vh; }
+.sidebar { width: var(--sidebar-width); display:flex; flex-direction:column; width: 250px !important; min-width: 250px !important; }
+.sidebar .brand { font-weight:700; color:#2b2f4a; }
+.sidebar .nav-link { color: #495057; }
+.sidebar .nav-link.active { color: #6f4ef1; font-weight:600; }
+
+.event-card { border-radius: var(--card-radius); overflow: hidden; }
+.event-card img { height: 140px; object-fit: cover; }
+.event-card .card-body { padding: 16px; }
+.event-card .card-title { font-size: 0.95rem; font-weight:700; }
+.event-card .tag { font-size: 0.72rem; padding: 5px 8px; border-radius: 999px; }
+
+/* make the layout look clean on small screens */
+@media (max-width: 768px) {
+  .sidebar { width: 100%; order: 2; }
+  .app-shell { flex-direction: column; }
+}
