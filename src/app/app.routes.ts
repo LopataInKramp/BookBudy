@@ -5,8 +5,9 @@ import { EventList } from './event-list/event-list';
 import { EventDetail } from './event-detail/event-detail';
 
 export const routes: Routes = [
-    { path: 'register', component: Login },
-    { path: 'login', component: Register },
+    { path: '', redirectTo: 'register', pathMatch: 'full' },
+    { path: 'register', component: Register },
+    { path: 'login', component: Login },
     { path: 'eventList', component: EventList },
     { path: 'events/:id', component: EventDetail }
 ];

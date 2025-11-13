@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, catchError, of } from 'rxjs';
 
 export interface EventItem {
@@ -11,12 +11,36 @@ export interface EventItem {
   image: string;
 }
 
+export interface RegisterRequest {
+  email: string;
+  password: string;
+  displayName?: string;
+}
+
+// Model za odziv iz tvoje C# metode
+export interface RegisterResponse {
+  success: boolean;
+  error?: string | null;
+  user?: {
+    id: number;
+    email: string;
+    displayName: string;
+  } | null;
+}
+
 @Injectable({ providedIn: 'root' })
 export class EventService {
   // Base URL for events API - change to your real API endpoint
-  private baseUrl = '/api';
+  private baseUrl = 'https://localhost:7199';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
+
+
+  register(req: RegisterRequest): Observable<RegisterResponse> {
+    return this.http.post<RegisterResponse>(`${this.baseUrl}/api/auth/register`, req).pipe(
+      
+    );
+  }
 
   getEvents(): Observable<EventItem[]> {
     return this.http.get<EventItem[]>(`${this.baseUrl}/events`).pipe(

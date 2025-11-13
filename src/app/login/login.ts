@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { EventService } from '../services/event.service';
 
 @Component({
   selector: 'app-login',
@@ -11,9 +12,9 @@ import { RouterModule } from '@angular/router';
   styleUrls: ['./login.css'],
 })
 export class Login {
-   registerForm: FormGroup;
+  registerForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private service: EventService) {
     this.registerForm = this.fb.group({
       username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -22,10 +23,16 @@ export class Login {
   }
 
   onSubmit() {
-     if (this.registerForm.valid) {
+    if (this.registerForm.valid) {
       console.log(this.registerForm.value);
-    } else {
-      this.registerForm.markAllAsTouched();
+      this.service.register(this.registerForm.value).subscribe(data => {
+        if (data) {
+          console.log('Registration successful', data);
+        }
+        else {
+          console.error('Registration failed');
+        }
+      });
     }
   }
 }
