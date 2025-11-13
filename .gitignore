@@ -1,0 +1,17 @@
+# Angular build output
+/dist/
+/frontend/bookbuddy/dist/
+/frontend/bookbuddy/.angular/
+/frontend/bookbuddy/.angular/cache/
+
+# dependencies
+/node_modules/
+/frontend/bookbuddy/node_modules/
+
+# environment files
+/src/environments/*.local.ts
+/src/environments/*.prod.ts
+
+# IDE / editor
+/.vscode/
+/.idea/

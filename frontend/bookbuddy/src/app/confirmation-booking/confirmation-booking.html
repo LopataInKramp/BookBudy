@@ -1,0 +1,77 @@
+<div class="confirmation-container">
+  <!-- Success Header -->
+  <div class="success-header">
+    <div class="success-icon">✓</div>
+    <h1>Booking Confirmed!</h1>
+    <p class="confirmation-text">
+      Your booking for <strong>{{ event.title }}</strong> has been successfully processed.
+    </p>
+    <p class="confirmation-reference">
+      Booking Reference: <strong>{{ booking.confirmationNumber }}</strong>
+    </p>
+    <p class="confirmation-email">
+      A detailed confirmation email has been sent to your registered email address.
+    </p>
+  </div>
+
+  <div class="confirmation-content">
+    <!-- Event Details Section -->
+    <div class="event-details-section">
+      <h2>Event Details</h2>
+      <div class="event-card">
+        <img [src]="event.image" alt="{{ event.title }}" class="event-image" />
+        <div class="event-info">
+          <h3>{{ event.title }}</h3>
+          <div class="event-meta">
+            <div class="meta-item">
+              <span class="icon">📅</span>
+              <span>{{ event.date }}</span>
+            </div>
+            <div class="meta-item">
+              <span class="icon">🕐</span>
+              <span>{{ event.time }}</span>
+            </div>
+            <div class="meta-item">
+              <span class="icon">📍</span>
+              <span>{{ event.location }}</span>
+            </div>
+            <div class="meta-item">
+              <span class="icon">🏢</span>
+              <span>{{ event.organizer }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ticket Information Section -->
+    <div class="ticket-info-section">
+      <h2>Ticket Information</h2>
+      <div class="ticket-details">
+        <div class="ticket-row">
+          <span class="label">Ticket Type:</span>
+          <span class="value">{{ booking.ticketType }}</span>
+        </div>
+        <div class="ticket-row">
+          <span class="label">Quantity:</span>
+          <span class="value">{{ booking.quantity }}</span>
+        </div>
+        <div class="ticket-row">
+          <span class="label">Price per Ticket:</span>
+          <span class="value">${{ booking.pricePerTicket.toFixed(2) }}</span>
+        </div>
+        <div class="ticket-row total-row">
+          <span class="label">Total Amount Paid:</span>
+          <span class="value">{{ '$' + booking.totalAmount.toFixed(2) }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="action-buttons">
+    <button class="btn btn-primary" (click)="viewMyBookings()">View My Bookings</button>
+    <button class="btn btn-secondary" (click)="backToEventList()">Back to Event List</button>
+  </div>
+</div>
+

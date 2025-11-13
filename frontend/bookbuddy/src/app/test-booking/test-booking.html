@@ -1,0 +1,74 @@
+<div class="booking-container">
+  <div class="main-content">
+    <!-- Back Button -->
+    <div class="header">
+      <button class="back-button" (click)="goBack()">
+        <span>←</span> Back to Event Details
+      </button>
+      <h1>FutureTech Summit 2024</h1>
+      <p class="event-meta">October 26, 2024 · Innovation Hub, City Center</p>
+    </div>
+
+    <!-- Tickets Section -->
+    <div class="tickets-section">
+      <h2>Select Your Tickets</h2>
+      <div class="tickets-grid">
+        <div *ngFor="let ticket of tickets" class="ticket-card">
+          <div class="ticket-header">
+            <h3>{{ ticket.name }}</h3>
+            <p class="price">${{ ticket.price.toFixed(2) }}</p>
+          </div>
+          <p class="description">{{ ticket.description }}</p>
+          <div class="quantity-section">
+            <label>Quantity:</label>
+            <div class="quantity-control">
+              <button (click)="decrementQuantity(ticket)" class="quantity-btn">−</button>
+              <input type="number" [(ngModel)]="ticket.quantity" readonly class="quantity-input" />
+              <button (click)="incrementQuantity(ticket)" class="quantity-btn">+</button>
+            </div>
+          </div>
+          <div class="availability">
+            <span *ngIf="!ticket.isLimited" class="available-badge">
+              Available ({{ ticket.available }} in stock)
+            </span>
+            <span *ngIf="ticket.isLimited" class="limited-badge">
+              Limited Stock ({{ ticket.available }} available)
+            </span>
+            <span class="info-icon">ⓘ</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Booking Summary Sidebar -->
+  <aside class="booking-summary">
+    <h3>Booking Summary</h3>
+    
+    <div class="summary-content">
+      <div *ngIf="getTotalTickets() === 0" class="no-selection">
+        No tickets selected yet.
+      </div>
+      
+      <div *ngIf="getTotalTickets() > 0" class="summary-items">
+        <ng-container *ngFor="let ticket of tickets">
+          <div *ngIf="ticket.quantity > 0" class="summary-item">
+            <span class="item-name">{{ ticket.name }} × {{ ticket.quantity }}</span>
+            <span class="item-price">${{ (ticket.price * ticket.quantity).toFixed(2) }}</span>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+
+    <div class="summary-total">
+      <span class="total-label">Total</span>
+      <span class="total-price">${{ getTotalPrice().toFixed(2) }}</span>
+    </div>
+
+    <button class="book-button" (click)="bookTickets()">Book Tickets</button>
+
+    <p class="terms-text">
+      By clicking "Book Tickets" you agree to our terms and conditions.
+    </p>
+  </aside>
+</div>

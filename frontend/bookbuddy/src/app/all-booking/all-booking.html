@@ -1,0 +1,62 @@
+<div class="all-bookings-container">
+  <div class="header">
+    <h1>My Bookings</h1>
+  </div>
+
+  <!-- Tab Navigation -->
+  <div class="tab-navigation">
+    <button 
+      class="tab-btn" 
+      [class.active]="activeTab === 'upcoming'"
+      (click)="setActiveTab('upcoming')">
+      Upcoming Bookings
+    </button>
+    <button 
+      class="tab-btn" 
+      [class.active]="activeTab === 'past'"
+      (click)="setActiveTab('past')">
+      Past Bookings
+    </button>
+  </div>
+
+  <!-- Bookings Grid -->
+  <div class="bookings-grid">
+    <div *ngFor="let booking of getDisplayBookings()" class="booking-card">
+      <div class="card-image">
+        <img [src]="booking.image" [alt]="booking.eventTitle" />
+      </div>
+
+      <div class="card-content">
+        <h3>{{ booking.eventTitle }}</h3>
+
+        <div class="event-details">
+          <div class="detail-row">
+            <span class="icon">📅</span>
+            <span>{{ booking.eventDate }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="icon">🕐</span>
+            <span>{{ booking.eventTime }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="icon">📍</span>
+            <span>{{ booking.eventLocation }}</span>
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <span class="status-badge" [ngClass]="'status-' + booking.status">
+            {{ booking.status === 'confirmed' ? 'Confirmed' : 'Upcoming' }}
+          </span>
+          <button class="view-details-btn" (click)="viewDetails(booking)">View Details</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Browse More Events Button -->
+  <div class="browse-section">
+    <button class="browse-btn" (click)="browseMoreEvents()">Browse More Events</button>
+  </div>
+</div>
+
