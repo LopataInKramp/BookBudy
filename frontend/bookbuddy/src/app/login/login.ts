@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
+import { supabase } from '../supabase/supabase.client';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +12,7 @@ import { RouterModule } from '@angular/router';
   styleUrls: ['./login.css'],
 })
 export class Login {
-   registerForm: FormGroup;
+   loginForm: FormGroup;
 
   constructor(private fb: FormBuilder) {
     this.registerForm = this.fb.group({
@@ -21,11 +22,24 @@ export class Login {
     });
   }
 
-  onSubmit() {
-     if (this.registerForm.valid) {
-      console.log(this.registerForm.value);
+  async onSubmit() {
+    if (this.loginForm.valid) {
+      const { email, password } = this.loginForm.value;
+      try {
+        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) {
+          console.error('Sign-in error', error);
+          alert(error.message || 'Login failed');
+          return;
+        }
+        console.log('Login success', data);
+        this.router.navigate(['/eventList']);
+      } catch (err) {
+        console.error(err);
+        alert('Login failed');
+      }
     } else {
-      this.registerForm.markAllAsTouched();
+      this.loginForm.markAllAsTouched();
     }
   }
 }
