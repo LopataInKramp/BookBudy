@@ -22,34 +22,34 @@ namespace BookBudy.Services
             if (string.IsNullOrWhiteSpace(req.Email) || string.IsNullOrWhiteSpace(req.Password))
                 return (false, "Email and password are required.", null);
 
-            if (await _context.Users.AnyAsync(u => u.Email == req.Email))
+            if (await _context.Users.AnyAsync(u => u.email == req.Email))
                 return (false, "Email already registered.", null);
 
             var user = new User
             {
-                Email = req.Email,
-                DisplayName = req.DisplayName
+                email = req.Email,
+                username = req.DisplayName
             };
-            user.PasswordHash = _hasher.HashPassword(user, req.Password);
+            user.password_hash = _hasher.HashPassword(user, req.Password);
 
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            var safe = new { user.Id, user.Email, user.DisplayName };
+            var safe = new { Id = user.user_id, Email = user.email, DisplayName = user.username };
             return (true, null, safe);
         }
 
         public async Task<(bool Success, string? Token, object? User)> AuthenticateAsync(LoginRequest req)
         {
-            var user = await _context.Users.SingleOrDefaultAsync(u => u.Email == req.Email);
+            var user = await _context.Users.SingleOrDefaultAsync(u => u.email == req.Email);
             if (user == null)
                 return (false, null, null);
 
-            var verify = _hasher.VerifyHashedPassword(user, user.PasswordHash, req.Password);
+            var verify = _hasher.VerifyHashedPassword(user, user.password_hash, req.Password);
             if (verify != PasswordVerificationResult.Success)
                 return (false, null, null);
 
-            var safe = new { user.Id, user.Email, user.DisplayName };
+            var safe = new { Id = user.user_id, Email = user.email, DisplayName = user.username };
             return (true, "<JWT_TOKEN_PLACEHOLDER>", safe); // Replace with actual JWT generation logic
         }
 

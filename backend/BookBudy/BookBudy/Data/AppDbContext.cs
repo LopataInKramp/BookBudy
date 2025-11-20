@@ -12,7 +12,9 @@ namespace BookBudy.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<User>().HasIndex(u => u.Email).IsUnique();
+            modelBuilder.Entity<User>().HasIndex(u => u.email).IsUnique();
+            modelBuilder.Entity<User>().HasKey(u => u.user_id);
+            modelBuilder.Entity<User>().Property(u => u.user_id).ValueGeneratedOnAdd();
         }
     }
 }

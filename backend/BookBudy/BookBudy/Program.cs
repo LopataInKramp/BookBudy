@@ -15,6 +15,7 @@ var jwtIssuer = builder.Configuration["Jwt:Issuer"] ?? "bookbudy";
 var key = Encoding.UTF8.GetBytes(jwtSecret);
 
 
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS Users (
+CREATE TABLE IF NOT EXISTS "Users" (
     user_id SERIAL PRIMARY KEY,
     username VARCHAR(50) UNIQUE NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS Users (
     created_at TIMESTAMP DEFAULT NOW()
 );
 
-INSERT INTO users (username, email, password_hash, role) VALUES
+INSERT INTO Users (username, email, password_hash, role) VALUES
 ('jan_novak', 'jan.novak@email.com', 'hashed_password_123', 'user'),
 ('ana_kovač', 'ana.kovac@email.com', 'hashed_password_456', 'user'),
 ('rock_band', 'info@rockband.com', 'hashed_password_789', 'organizer'),
