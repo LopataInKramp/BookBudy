@@ -1,5 +1,5 @@
 <div class="container-fluid event-detail p-4">
-  <div class="mb-3"><a class="text-decoration-none" (click)="back()">&larr; Back to Event List</a></div>
+  <div class="mb-3"><a class="text-decoration-none cursor-pointer" (click)="back()">&larr; Back to Event List</a></div>
 
   <div *ngIf="loading" class="text-center py-5">Loading...</div>
   <div *ngIf="error" class="alert alert-danger">{{error}}</div>
@@ -33,6 +33,7 @@
               <tr><td>Student Discount</td><td>$249</td><td>Available (ID required)</td></tr>
             </tbody>
           </table>
+          <button class="btn btn-primary mt-3" (click)="makeBooking()">Make Booking</button>
         </div>
       </div>
 

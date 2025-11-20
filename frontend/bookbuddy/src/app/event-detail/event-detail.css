@@ -2,6 +2,10 @@
 .event-detail .card { border-radius: 10px; }
 .event-detail .agenda .time { width: 58px; }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
 @media (max-width: 768px) {
   .event-detail .hero img { height: 180px; }
 }

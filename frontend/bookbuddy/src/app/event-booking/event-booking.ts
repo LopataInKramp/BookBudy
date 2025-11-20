@@ -24,6 +24,7 @@ export interface TicketType {
 })
 export class EventBooking implements OnInit {
   event: EventItem | null = null;
+  eventId!: string | null;
   loading = false;
   error: string | null = null;
 
@@ -78,7 +79,9 @@ export class EventBooking implements OnInit {
       this.error = 'Event id missing';
       return;
     }
+    this.eventId = id;
     this.loadEvent(id);
+  
   }
 
   private loadEvent(id: string) {
@@ -129,7 +132,8 @@ export class EventBooking implements OnInit {
     alert('Booking confirmed! Check your email for confirmation.');
   }
 
-  back() {
-    this.router.navigate(['/events', this.event?.id]);
-  }
+back() {
+  this.router.navigate(['/events', this.eventId]);
+}
+
 }
